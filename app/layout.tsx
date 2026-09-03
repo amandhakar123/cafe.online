@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Playfair_Display, Plus_Jakarta_Sans, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { cafeConfig } from "@/data/cafe";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -6,6 +7,27 @@ import { SmoothScrollProvider } from "@/components/providers/smooth-scroll";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { FloatingWhatsApp } from "@/components/ui/floating-whatsapp";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: `${cafeConfig.name} | Artisanal Roastery & Culinary Sanctuary in ${cafeConfig.city}`,
@@ -82,14 +104,21 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${playfair.variable} ${cormorant.variable} ${jakarta.variable}`}
+    >
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased selection:bg-[var(--accent)] selection:text-black">
+      <body
+        suppressHydrationWarning
+        className="antialiased selection:bg-[var(--accent)] selection:text-black font-sans"
+      >
         {/* Subtle noise grain texture overlay */}
         <div className="noise-overlay" />
 

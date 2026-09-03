@@ -18,11 +18,11 @@ export function CoffeeCupModel() {
 
     if (steamRef.current) {
       steamRef.current.rotation.y -= delta * 0.2;
-      steamRef.current.children.forEach((child, i) => {
+      steamRef.current.children.forEach((child) => {
         child.position.y = (child.position.y + delta * 0.4) % 1.2;
         const mesh = child as THREE.Mesh;
-        if (mesh.material && "opacity" in mesh.material) {
-          (mesh.material as THREE.Material).opacity = Math.max(0, 1 - child.position.y / 1.2) * 0.25;
+        if (mesh.material && typeof mesh.material === "object" && "opacity" in mesh.material) {
+          (mesh.material as THREE.MeshBasicMaterial).opacity = Math.max(0, 1 - child.position.y / 1.2) * 0.25;
         }
       });
     }

@@ -2,12 +2,25 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { cafeConfig } from "@/data/cafe";
 import { Button } from "@/components/ui/button";
-import { CoffeeScene } from "@/components/3d/coffee-scene";
 import { DemoBadge } from "@/components/ui/demo-badge";
 import { ArrowDown, Sparkles } from "lucide-react";
 import { gsap } from "@/lib/gsap";
+
+// Dynamically load R3F Canvas to ensure zero SSR hydration issues
+const CoffeeScene = dynamic(
+  () => import("@/components/3d/coffee-scene").then((mod) => mod.CoffeeScene),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[360px] sm:h-[440px] md:h-[500px] flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full border-2 border-[var(--accent)]/30 border-t-[var(--accent)] animate-spin" />
+      </div>
+    ),
+  }
+);
 
 interface HeroProps {
   onOpenReservation: () => void;
@@ -22,6 +35,7 @@ export function HeroSection({ onOpenReservation }: HeroProps) {
   const eyebrowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
@@ -43,7 +57,7 @@ export function HeroSection({ onOpenReservation }: HeroProps) {
         )
         // 1.2s Headline line-by-line reveal
         .fromTo(
-          headlineRef.current?.children || [],
+          headlineRef.current ? Array.from(headlineRef.current.children) : [],
           { opacity: 0, y: 40, clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)" },
           {
             opacity: 1,

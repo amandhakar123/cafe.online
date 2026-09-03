@@ -1,4 +1,10 @@
 {
+  "components\\sections\\hero.tsx -> @/components/3d/coffee-scene": {
+    "id": "components\\sections\\hero.tsx -> @/components/3d/coffee-scene",
+    "files": [
+      "static/chunks/_app-pages-browser_components_3d_coffee-scene_tsx.js"
+    ]
+  },
   "node_modules\\@react-three\\drei\\core\\VideoTexture.js -> hls.js": {
     "id": "node_modules\\@react-three\\drei\\core\\VideoTexture.js -> hls.js",
     "files": []
